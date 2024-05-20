@@ -1,6 +1,6 @@
 from datasets import load_dataset
 class C4200m:
-    def __init__():
+    def __init__(self):
         pass
 
     def download(self, output_folder_fp):
