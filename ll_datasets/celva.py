@@ -31,3 +31,17 @@ class CELVA:
                     url=url,
                     output=output_filepath
             )
+
+    def download_direct_link_agreement_metrics_celva(self):
+        url = "https://drive.google.com/"\
+                "uc?id="\
+                f"{self.config['CELVA_AGREEMENT_JSON_FILE_GDRIVE_ID']}"
+        output_filepath="./outputs/CELVA/celva-predictions.json"
+        output_parent_dir_path = "./outputs/CELVA/"
+        expected_downloaded_file = "./outputs/CELVA/celva-predictions.json"
+        if not os.path.exists(expected_downloaded_file):
+            os.system(f"mkdir -p {output_parent_dir_path}")
+            gdown.download(
+                    url=url,
+                    output=output_filepath
+            )
