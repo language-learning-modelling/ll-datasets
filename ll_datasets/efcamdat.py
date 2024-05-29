@@ -69,7 +69,7 @@ class EFCAMDAT:
                     output=output_filepath
             )
 
-    def read_clean_efcamdat(self, filepath=None):
+    def read_cleaned_efcamdat(self, filepath=None):
         """
         Read the cleaned EFCAMDAT dataset from a CSV file.
 
@@ -96,7 +96,12 @@ class EFCAMDAT:
 
         The DataFrame is converted to a dictionary with records orientation.
         """
-        self.instances_dict = json.loads(self.dataframe.to_json(orient="records"))
+        if not hasattr(self, "dataframe"):
+            try:
+                self.read_clean_efcamdat()
+            except:
+                raise Exception("Run efcamdat.read_clean_efcamdat first")
+        self.all_instances = json.loads(self.dataframe.to_json(orient="records"))
 
     def save_all_instances_json(self, output_fp):
         """
@@ -110,10 +115,12 @@ class EFCAMDAT:
         Raises
         ------
         AttributeError
-            If the JSON data is not available as attribute 'instances_dict'.
+            If the JSON data is not available as attribute 'all_instances'.
         """
-        if hasattr(self, 'instances_dict'):
-            json_formatted_str = json.dumps(self.instances_dict, indent=4)
+        if hasattr(self, 'all_instances')\
+            and not os.path.exists(output_fp):
+            raise Exception("Given file does not exist")
+            json_formatted_str = json.dumps(self.all_instances, indent=4)
             with open(output_fp, "w") as outf:
                 outf.write(json_formatted_str)
 
@@ -137,53 +144,67 @@ class EFCAMDAT:
         if not os.path.exists(filepath):
             raise Exception("Given file does not exist")
         with open(filepath) as inpf:
-            self.instances_dict = json.load(inpf)
+            self.all_instances = json.load(inpf)
 
     def generate_nationality_splits(self):
-        self.unique_nationalities = collections.defaultdict(int)
-        self.nationalities_instances = collections.defaultdict(list)
-        for d in self.instances_dict:
-            self.unique_nationalities[d['nationality']] += 1 
-            self.nationalities_instances[d['nationality']].append(d)
-        self.unique_nationalities = {k:v for k,v in sorted(
-                                        self.unique_nationalities.items(),
+        self.unique_nationality = collections.defaultdict(int)
+        self.nationality_instances = collections.defaultdict(list)
+        for d in self.all_instances:
+            self.unique_nationality[d['nationality']] += 1 
+            self.nationality_instances[d['nationality']].append(d)
+        self.unique_nationality = {k:v for k,v in sorted(
+                                        self.unique_nationality.items(),
                                         key=lambda tpl: tpl[1]
                                         )}
-        print(self.unique_nationalities)
+        print(self.unique_nationality)
 
     def generate_proficiency_splits(self):
-        self.unique_proficiencies = collections.defaultdict(int)
-        self.nationalities_instances = collections.defaultdict(list)
-        for d in self.instances_dict:
-            self.unique_proficiencies[d['cefr']] += 1 
-            self.nationalities_instances[d['cefr']].append(d)
-        self.unique_proficiencies = {k:v for k,v in sorted(
-                                        self.unique_proficiencies.items(),
+        self.unique_proficiency = collections.defaultdict(int)
+        self.proficiency_instances = collections.defaultdict(list)
+        for d in self.all_instances:
+            self.unique_proficiency[d['cefr']] += 1 
+            self.proficiency_instances[d['cefr']].append(d)
+        self.unique_proficiency = {k:v for k,v in sorted(
+                                        self.unique_proficiency.items(),
                                         key=lambda tpl: tpl[1]
                                         )}
-        print(self.unique_proficiencies)
+        print(self.unique_proficiency)
 
     def generate_proficiencyNationality_splits(self):
-        self.unique_nationalities_proficiency_pairs = collections.defaultdict(int)
-        self.nationalities_proficiencies_instances = collections.defaultdict(list)
-        for d in self.instances_dict:
+        self.unique_nationality_proficiency_pairs = collections.defaultdict(int)
+        self.nationality_proficiency_instances = collections.defaultdict(list)
+        for d in self.all_instances:
             nationality_proficiency_pair = f"{d['cefr']}_{d['nationality']}"
-            self.unique_nationalities_proficiency_pairs[nationality_proficiency_pair] += 1 
-            self.nationalities_proficiencies_instances[nationality_proficiency_pair].append(d)
-        self.unique_nationalities_proficiency_pairs = {k:v for k,v in sorted(
-                                        self.unique_nationalities_proficiency_pairs.items(),
+            self.unique_nationality_proficiency_pairs[nationality_proficiency_pair] += 1 
+            self.nationality_proficiency_instances[nationality_proficiency_pair].append(d)
+        self.unique_nationality_proficiency_pairs = {k:v for k,v in sorted(
+                                        self.unique_nationality_proficiency_pairs.items(),
                                         key=lambda tpl: tpl[1]
                                         )}
-        print(self.unique_nationalities_proficiency_pairs)
+        print(self.unique_nationality_proficiency_pairs)
 
     def generate_specific_learner_split(self, learner_id):
         pass
 
-    def output_mlm_pipeline_file(self, output_fp):
-        for nationality, instances_lst in self.nationalities_instances.items():
-                nationality_fp=f'{output_fp.replace(".txt","")}_{nationality}.txt'
+    def output_mlm_pipeline_file(self,
+                                 base_filename,
+                                 filter_="proficiency"):
+        instances_map = {
+            "proficiency": self.proficiency_instances 
+                    if hasattr(self, "proficiency_instances") else None,
+            "nationality": self.nationality_instances
+                    if hasattr(self, "nationality_instances") else None,
+            "nationality_proficiency": self.nationality_proficiency_instances
+                    if hasattr(self, "nationality_proficiency_instances") else None,
+            "all": {"all":self.all_instances}
+                    if hasattr(self, "all_instances") else None,
+        }
+        if not instances_map.get(filter_,False):
+            raise Exception("the type of instances you asked for does not exist, try running generate_splits")
+        for category_name, instances_lst in instances_map[filter_].items():
+                category_name_fp=f'{base_filename.replace(".txt","")}_{category_name}.txt'
                 texts="\n".join([d["text_corrected"] for d in instances_lst])
-                with open(nationality_fp, "w") as outf:
+                with open(category_name_fp, "w") as outf:
                     outf.write(texts)
 
 
