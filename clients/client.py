@@ -1,7 +1,7 @@
-from ll_datasets import *
-
-
-
+import sys
+sys.path.append("../ll_datasets")
+from efcamdat import EFCAMDAT
+# from .ll_datasets import *
 
 ef = EFCAMDAT()
 #############################################
@@ -45,7 +45,6 @@ ef.output_mlm_pipeline_file(
         base_filename="./outputs/EFCAMDAT/cleaned_efcamdat_nationality_proficiency",
         filter_="nationality_proficiency"
         )
-
 
 #############################################
 ##      generate learner training data     ##

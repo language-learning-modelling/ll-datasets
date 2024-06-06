@@ -183,8 +183,36 @@ class EFCAMDAT:
                                         )}
         print(self.unique_nationality_proficiency_pairs)
 
-    def generate_specific_learner_split(self, learner_id):
-        pass
+    def group_clean_efcamdat_texts_by_learner(self):
+        self.texts_by_learner = collections.defaultdict(lambda : 
+            { 
+                "texts":[]
+            }
+        )
+        for instance_dict in self.all_instances:
+            self.texts_by_learner[instance_dict['learner_id']]['texts'].append(instance_dict)
+        for learner_id, learner_dict in self.texts_by_learner.items():
+            self.texts_by_learner[learner_id]['n_of_texts'] =\
+                len(self.texts_by_learner[learner_id]['texts'])  
+        self.texts_by_learner = dict(
+                sorted(
+                        self.texts_by_learner.items(),key=lambda tpl: tpl[1]['n_of_texts']  
+                      ) 
+                )
+                
+    def stats_learners_over_n_texts(self, n):
+        stats = {
+            "learners_id": [],
+            "count": 0
+        }
+        for learner_id, learner_dict in self.texts_by_learner.items():
+            if learner_dict["n_of_texts"] >= n:
+                 stats['count']+=1
+                 stats['learners_id'].append(learner_dict)
+        return stats 
+            
+    def filter_learners_by_n_of_texts(self, n):
+        pass 
 
     def output_mlm_pipeline_file(self,
                                  base_filename,
@@ -203,6 +231,8 @@ class EFCAMDAT:
             raise Exception("the type of instances you asked for does not exist, try running generate_splits")
         for category_name, instances_lst in instances_map[filter_].items():
                 category_name_fp=f'{base_filename.replace(".txt","")}_{category_name}.txt'
+                if os.path.exists(category_name_fp):
+                    continue
                 texts="\n".join([d["text_corrected"] for d in instances_lst])
                 with open(category_name_fp, "w") as outf:
                     outf.write(texts)
