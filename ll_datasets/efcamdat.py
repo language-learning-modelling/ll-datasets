@@ -117,12 +117,14 @@ class EFCAMDAT:
         AttributeError
             If the JSON data is not available as attribute 'all_instances'.
         """
-        if hasattr(self, 'all_instances')\
-            and not os.path.exists(output_fp):
-            raise Exception("Given file does not exist")
+        if hasattr(self, 'all_instances'):
+            if not os.path.exists(output_fp):
+                return
             json_formatted_str = json.dumps(self.all_instances, indent=4)
             with open(output_fp, "w") as outf:
                 outf.write(json_formatted_str)
+        else:
+            raise Exception("Given file does not exist")
 
     def load_json(self, filepath=None):
         """
@@ -203,16 +205,26 @@ class EFCAMDAT:
     def stats_learners_over_n_texts(self, n):
         stats = {
             "learners_id": [],
-            "count": 0
+            "count": 0,
+            "n_texts": 0
         }
         for learner_id, learner_dict in self.texts_by_learner.items():
             if learner_dict["n_of_texts"] >= n:
                  stats['count']+=1
+                 stats['n_texts']+=learner_dict["n_of_texts"]
                  stats['learners_id'].append(learner_dict)
         return stats 
             
     def filter_learners_by_n_of_texts(self, n):
         pass 
+
+    def output_prefix_tokens_txt(self, outputfp):
+        with open(outputfp, "w") as outf:
+            for proficiency_str in self.unique_proficiency:
+                outf.write(f"[{proficiency_str.upper()}]"+"\n")
+
+            for nationality_str in self.unique_nationality:
+                outf.write(f"[{nationality_str.upper()}]"+"\n")
 
     def output_mlm_pipeline_file(self,
                                  base_filename,
@@ -236,5 +248,3 @@ class EFCAMDAT:
                 texts="\n".join([d["text_corrected"] for d in instances_lst])
                 with open(category_name_fp, "w") as outf:
                     outf.write(texts)
-
-

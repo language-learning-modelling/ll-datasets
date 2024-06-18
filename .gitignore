@@ -3,3 +3,7 @@ outputs/
 ll_datasets/__pycache__/
 .env
 clients/outputs/
+clients/outputs/
+./clients/outputs/
+./clients/outputs
+clients/outputs
