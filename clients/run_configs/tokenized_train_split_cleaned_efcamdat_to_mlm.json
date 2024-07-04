@@ -1,0 +1,4 @@
+{
+	"input_fp": "/home/berstearns/projects/language-learning-modelling/ll-datasets/outputs/EFCAMDAT/tokenization_batch/train/train_cleaned_efcamdat__all_segment_aa",
+	"output_folder": "/home/berstearns/projects/language-learning-modelling/ll-datasets/outputs/EFCAMDAT/masked_sentences_batch/train"
+}

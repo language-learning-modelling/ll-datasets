@@ -1,4 +1,5 @@
 from dotenv import dotenv_values
+import pandas as pd
 import gdown
 import os
 class CELVA:
@@ -45,3 +46,15 @@ class CELVA:
                     url=url,
                     output=output_filepath
             )
+    def read_celva_csv_dataset(
+                            self,
+                            filepath, 
+                            targetL2=['Anglais']
+                           ):
+        dataset = pd.read_csv(filepath)
+        ds_eng = dataset.loc[ dataset['L2'].isin(targetL2) ]
+        ds_eng = ds_eng 
+        texts = ds_eng['Texte_etudiant'].to_list()
+        vocrange = ds_eng['Voc_range'].to_list()
+        records = dataset.reset_index().to_dict(orient='records')
+        self.records = records
