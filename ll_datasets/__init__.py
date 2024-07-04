@@ -3,6 +3,7 @@ try:
 except:
     pass
 
+from .models import ModelsDownloader
 from .efcamdat import EFCAMDAT
 from .fce import FCE
 from .celva import CELVA 
