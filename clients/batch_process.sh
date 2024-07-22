@@ -2,7 +2,7 @@
 # var for session name (to avoid repeated occurences)
 PYTHONBIN="/home/berstearns/.cache/pypoetry/virtualenvs/ll-datasets-9MmMAHKe-py3.12/bin/python"
 SCRIPTFP="tokenized_batch_to_mlm_batch.py"
-MAX_NUM_TO_PROCESS=2
+MAX_NUM_TO_PROCESS=5
 sn=xyz
 
 # Start the session and window 0 in /etc
@@ -14,9 +14,9 @@ sn=xyz
 # Create a bunch of windows, one for each data split
 DATASPLITS=()
 SPLIT="test"
-DATASET="CELVA"
-INPUT_BATCH_FOLDER="./outputs/${DATASET}/tokenization_batch"
-OUTPUT_BATCH_FOLDER="./outputs/${DATASET}/masked_sentences_batch"
+DATASET="EFCAMDAT"
+INPUT_BATCH_FOLDER="./outputs/${DATASET}/tokenization_batch/${SPLIT}"
+OUTPUT_BATCH_FOLDER="./outputs/${DATASET}/masked_sentences_batch/${SPLIT}"
 for FILENAME in `ls $INPUT_BATCH_FOLDER`;
 do
 	EXPECTED_OUTPUT=${OUTPUT_BATCH_FOLDER}/${FILENAME}_maskedsentences.json
@@ -44,7 +44,7 @@ do
     echo $CONFIG
     # echo $CONFIG
     #tmux new-window -t "$sn:$((i+1))" -n "${FILENAME:(-3)}" "zsh -c script.py"
-    $COMMAND
+    $COMMAND &
 done
 
 # Set the default cwd for new windows (optional, otherwise defaults to session cwd)
