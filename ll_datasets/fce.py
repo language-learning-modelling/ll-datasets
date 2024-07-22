@@ -1,23 +1,31 @@
-from dotenv import dotenv_values
-import ll_datasets
-import gdown
 import os
+from dataclasses import dataclass
+from dotenv import dotenv_values
+from conllu import parse
+import gdown
+import ll_datasets
+
+@dataclass
+class FCEConfig:
+    INPUT_FOLDER: str = None
+
+    def __post_init__(self):
+        print(dir(self)) 
+        exit()
+
 class FCE:
-    def __init__(self):
+    def __init__(self, config):
         self.config = {
             **dotenv_values(".env"),  # load development variables
             **dotenv_values(".env.shared"),  # load shared development variables
             **dotenv_values(".env.secret"),  # load sensitive variables
-            # **os.environ,  # override loaded values with environment variables
         }
-        print(self.config)
 
     def download(self):
         '''
-        downloads the dataset using the huggingface dataset library
-        https://huggingface.co/datasets/liweili/c4_200m?row=1
         '''
         self.download_direct_link_fce_zip()
+
     def download_direct_link_fce_zip(self):
         url = "https://drive.google.com/"\
                 "uc?id="\
@@ -32,3 +40,9 @@ class FCE:
                     output=output_filepath
                     )
         os.system(f'unzip {output_filepath} -d {output_parent_dir_path};mv -i {expected_extracted_dir_from_zip} ./outputs/FCE') 
+
+    def parse_raw_fce(self):
+        with open("./outputs/FCE/en_esl-ud-train.conllu") as original_inpf:
+            self.original_data = parse(original_inpf.read())
+        with open("./outputs/FCE/corrected/en_cesl-ud-train.conllu") as original_inpf:
+            self.corrected_data = parse(original_inpf.read())
