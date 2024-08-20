@@ -7,5 +7,3 @@ client = FCE(processingConfig)
 #client.download()
 
 client.parse_raw_fce()
-
-

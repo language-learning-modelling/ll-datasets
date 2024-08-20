@@ -44,5 +44,9 @@ class FCE:
     def parse_raw_fce(self):
         with open("./outputs/FCE/en_esl-ud-train.conllu") as original_inpf:
             self.original_data = parse(original_inpf.read())
-        with open("./outputs/FCE/corrected/en_cesl-ud-train.conllu") as original_inpf:
             self.corrected_data = parse(original_inpf.read())
+        with open("./outputs/FCE/corrected/en_cesl-ud-train.conllu") as original_inpf:
+            for 
+
+
+
