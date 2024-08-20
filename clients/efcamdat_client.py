@@ -4,7 +4,7 @@ if __name__ == "__main__":
     from efcamdat import EFCAMDAT
     # from .ll_datasets import *
 
-    ef = EFCAMDAT()
+    ef = EFCAMDAT("/.env")
     #############################################
     ##  download cleaned_efcamdat from gdrive  ##
     ##     to "./outputs/EFCAMDAT/" folder     ##

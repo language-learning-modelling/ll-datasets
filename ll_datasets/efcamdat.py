@@ -32,15 +32,12 @@ import json
 import collections
 
 class EFCAMDAT:
-    def __init__(self):
+    def __init__(self, env_filepath=".env"):
         """
         Initialize the EFCAMDAT class by loading configuration variables from environment files.
         """
         self.config = {
-            **dotenv_values(".env"),  # load development variables
-            **dotenv_values(".env.shared"),  # load shared development variables
-            **dotenv_values(".env.secret"),  # load sensitive variables
-            # **os.environ,  # override loaded values with environment variables
+            **dotenv_values(env_filepath),  # load development variables
         }
 
     def download(self):
