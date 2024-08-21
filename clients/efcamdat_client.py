@@ -9,16 +9,16 @@ if __name__ == "__main__":
     ##  download cleaned_efcamdat from gdrive  ##
     ##     to "./outputs/EFCAMDAT/" folder     ##
     #############################################
-    # ef.download()
+    ef.download()
 
     #############################################
     ##      from raw to json file              ##
     ##                                         ##
     #############################################
-    '''
     ef.read_cleaned_efcamdat("./outputs/EFCAMDAT/cleaned_efcamdat.csv")
     ef.pandas_to_json()
     ef.save_all_instances_json("./outputs/EFCAMDAT/cleaned_efcamdat.json")
+    '''
     '''
 
     #############################################
