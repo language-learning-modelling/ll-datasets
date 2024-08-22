@@ -25,7 +25,6 @@ if __name__ == "__main__":
     ##      generate subsets of data           ##
     ##        for fine-tuning                  ##
     #############################################
-    '''
     ef.generate_nationality_splits()
     ef.generate_proficiency_splits()
     ef.generate_proficiencyNationality_splits()
@@ -49,6 +48,7 @@ if __name__ == "__main__":
             base_filename="./outputs/EFCAMDAT/cleaned_efcamdat_nationality_proficiency",
             filter_="nationality_proficiency"
             )
+    '''
     '''
 
     #############################################
