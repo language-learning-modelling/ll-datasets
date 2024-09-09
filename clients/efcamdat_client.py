@@ -4,7 +4,7 @@ if __name__ == "__main__":
     from efcamdat import EFCAMDAT
     # from .ll_datasets import *
 
-    ef = EFCAMDAT("/.env")
+    ef = EFCAMDAT("./.env")
     #############################################
     ##  download cleaned_efcamdat from gdrive  ##
     ##     to "./outputs/EFCAMDAT/" folder     ##
@@ -55,11 +55,11 @@ if __name__ == "__main__":
     ##      generate learner training data     ##
     ##        for fine-tuning                  ##
     #############################################
-    # ef.group_clean_efcamdat_texts_by_learner()
+    ef.group_clean_efcamdat_texts_by_learner()
 
     #############################################
     ##      generate prefix tokens             ##
     ##        to add in LLM vocabulary         ##
     #############################################
-    # ef.output_prefix_tokens_txt(outputfp="./outputs/EFCAMDAT/prefix_tokens.txt")
+    ef.output_prefix_tokens_txt(outputfp="./outputs/EFCAMDAT/prefix_tokens.txt")
 
