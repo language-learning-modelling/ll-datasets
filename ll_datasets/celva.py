@@ -12,20 +12,21 @@ class CELVA:
         }
         print(self.config)
 
-    def download(self):
+    def download(self, RAW_DATASET_FP):
         '''
         downloads the dataset using the huggingface dataset library
         https://huggingface.co/datasets/liweili/c4_200m?row=1
         '''
+        self.config["RAW_DATASET_FP"] = RAW_DATASET_FP
         self.download_direct_link_celva()
 
-    def download_direct_link_celva(self):
+    def download_direct_link_celva(self,):
         url = "https://drive.google.com/"\
                 "uc?id="\
                 f"{self.config['CELVA_CSV_FILE_GDRIVE_ID']}"
-        output_filepath="./outputs/CELVA/celva.csv"
-        output_parent_dir_path = "./outputs/CELVA/"
-        expected_downloaded_file = "./outputs/CELVA/celva.csv"
+        output_filepath=self.config["RAW_DATASET_FP"]
+        output_parent_dir_path = os.path.dirname(self.config["RAW_DATASET_FP"]) 
+        expected_downloaded_file = self.config["RAW_DATASET_FP"]# "./datasets/CELVA/celva.csv"
         if not os.path.exists(expected_downloaded_file):
             os.system(f"mkdir -p {output_parent_dir_path}")
             gdown.download(
@@ -37,9 +38,9 @@ class CELVA:
         url = "https://drive.google.com/"\
                 "uc?id="\
                 f"{self.config['CELVA_AGREEMENT_JSON_FILE_GDRIVE_ID']}"
-        output_filepath="./outputs/CELVA/celva-predictions.json"
-        output_parent_dir_path = "./outputs/CELVA/"
-        expected_downloaded_file = "./outputs/CELVA/celva-predictions.json"
+        output_filepath="./datasets/CELVA/celva-predictions.json"
+        output_parent_dir_path = "./datasets/CELVA/"
+        expected_downloaded_file = "./datasets/CELVA/celva-predictions.json"
         if not os.path.exists(expected_downloaded_file):
             os.system(f"mkdir -p {output_parent_dir_path}")
             gdown.download(
@@ -52,6 +53,8 @@ class CELVA:
                             targetL2=['Anglais']
                            ):
         dataset = pd.read_csv(filepath)
+        print(dataset)
+        print(dataset.columns)
         ds_eng = dataset.loc[ dataset['L2'].isin(targetL2) ]
         ds_eng = ds_eng 
         texts = ds_eng['Texte_etudiant'].to_list()

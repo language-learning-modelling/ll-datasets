@@ -7,7 +7,7 @@ if __name__ == "__main__":
     ef = EFCAMDAT("./.env")
     #############################################
     ##  download cleaned_efcamdat from gdrive  ##
-    ##     to "./outputs/EFCAMDAT/" folder     ##
+    ##     to "./datasets/EFCAMDAT/" folder     ##
     #############################################
     ef.download()
 
@@ -15,9 +15,9 @@ if __name__ == "__main__":
     ##      from raw to json file              ##
     ##                                         ##
     #############################################
-    ef.read_cleaned_efcamdat("./outputs/EFCAMDAT/cleaned_efcamdat.csv")
+    ef.read_cleaned_efcamdat("./datasets/EFCAMDAT/cleaned_efcamdat.csv")
     ef.pandas_to_json()
-    ef.save_all_instances_json("./outputs/EFCAMDAT/cleaned_efcamdat.json")
+    ef.save_all_instances_json("./datasets/EFCAMDAT/cleaned_efcamdat.csv.json")
     '''
     '''
 
@@ -30,22 +30,22 @@ if __name__ == "__main__":
     ef.generate_proficiencyNationality_splits()
 
     ef.output_mlm_pipeline_file(
-            base_filename="./outputs/EFCAMDAT/cleaned_efcamdat_",
+            base_filename="./datasets/EFCAMDAT/cleaned_efcamdat_",
             filter_="all"
             )
 
     ef.output_mlm_pipeline_file(
-            base_filename="./outputs/EFCAMDAT/cleaned_efcamdat_nationality",
+            base_filename="./datasets/EFCAMDAT/cleaned_efcamdat_nationality",
             filter_="nationality"
             )
 
     ef.output_mlm_pipeline_file(
-            base_filename="./outputs/EFCAMDAT/cleaned_efcamdat_proficiency",
+            base_filename="./datasets/EFCAMDAT/cleaned_efcamdat_proficiency",
             filter_="proficiency"
             )
 
     ef.output_mlm_pipeline_file(
-            base_filename="./outputs/EFCAMDAT/cleaned_efcamdat_nationality_proficiency",
+            base_filename="./datasets/EFCAMDAT/cleaned_efcamdat_nationality_proficiency",
             filter_="nationality_proficiency"
             )
     '''
@@ -61,5 +61,5 @@ if __name__ == "__main__":
     ##      generate prefix tokens             ##
     ##        to add in LLM vocabulary         ##
     #############################################
-    ef.output_prefix_tokens_txt(outputfp="./outputs/EFCAMDAT/prefix_tokens.txt")
+    ef.output_prefix_tokens_txt(outputfp="./datasets/EFCAMDAT/prefix_tokens.txt")
 

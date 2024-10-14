@@ -4,6 +4,6 @@ processingConfig = {
         "input_folder": "./outputs/FCE"
         }
 client = FCE(processingConfig)
-#client.download()
+client.download()
 
-client.parse_raw_fce()
+#client.parse_raw_fce()

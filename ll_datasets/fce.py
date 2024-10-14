@@ -46,7 +46,6 @@ class FCE:
             self.original_data = parse(original_inpf.read())
             self.corrected_data = parse(original_inpf.read())
         with open("./outputs/FCE/corrected/en_cesl-ud-train.conllu") as original_inpf:
-            for 
-
+            pass
 
 

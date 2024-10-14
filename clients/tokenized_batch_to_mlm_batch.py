@@ -39,4 +39,3 @@ if __name__ == "__main__":
         }
         dict_str = json.dumps(output_dict,indent=4)
         outf.write(dict_str)
-

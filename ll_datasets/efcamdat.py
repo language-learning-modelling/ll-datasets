@@ -56,9 +56,9 @@ class EFCAMDAT:
         url = "https://drive.google.com/"\
                 "uc?id="\
                 f"{self.config['EFCAMDAT_CSV_FILE_GDRIVE_ID']}"
-        output_filepath="./outputs/EFCAMDAT/cleaned_efcamdat.csv"
-        output_parent_dir_path = "./outputs/EFCAMDAT/"
-        expected_downloaded_file = "./outputs/EFCAMDAT/cleaned_efcamdat.csv"
+        output_filepath="./datasets/EFCAMDAT/cleaned_efcamdat.csv"
+        output_parent_dir_path = "./datasets/EFCAMDAT/"
+        expected_downloaded_file = "./datasets/EFCAMDAT/cleaned_efcamdat.csv"
         if not os.path.exists(expected_downloaded_file):
             os.system(f"mkdir -p {output_parent_dir_path}")
             gdown.download(
@@ -115,7 +115,7 @@ class EFCAMDAT:
             If the JSON data is not available as attribute 'all_instances'.
         """
         if hasattr(self, 'all_instances'):
-            if not os.path.exists(output_fp):
+            if os.path.exists(output_fp):
                 return
             json_formatted_str = json.dumps(self.all_instances, indent=4)
             with open(output_fp, "w") as outf:
