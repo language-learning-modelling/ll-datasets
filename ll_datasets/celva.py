@@ -2,6 +2,7 @@ from dotenv import dotenv_values
 import pandas as pd
 import gdown
 import os
+
 class CELVA:
     def __init__(self):
         self.config = {
@@ -47,6 +48,7 @@ class CELVA:
                     url=url,
                     output=output_filepath
             )
+
     def read_celva_csv_dataset(
                             self,
                             filepath, 
