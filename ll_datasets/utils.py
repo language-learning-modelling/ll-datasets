@@ -1,6 +1,7 @@
 from ll_datasets import FCE, EFCAMDAT, CELVA, TokenizedText, MaskedSentenceStr
 import json
 import os
+import zlib
 
 def dataclass_to_dict(obj):
     return {k:obj.__getattribute__(k)
@@ -52,3 +53,29 @@ def agreements_to_mlm_sentences(tokenized_text : TokenizedText, MASK_STR="[MASK]
                 )
         )
     return masked_sentences
+
+def compress_dict(data):
+    # Convert the dictionary to a JSON string
+    json_string = json.dumps(data)
+
+    # Encode the JSON string to bytes
+    json_bytes = json_string.encode('utf-8')
+
+    # Compress the byte data using zlib
+    compressed_data = zlib.compress(json_bytes)
+
+    return compressed_data
+
+def decompress_dict(compressed_data):
+    # Decompress the data using zlib
+    decompressed_bytes = zlib.decompress(compressed_data)
+
+    # Decode the bytes back to a JSON string
+    json_string = decompressed_bytes.decode('utf-8')
+
+    # Convert the JSON string back to a dictionary
+    data = json.loads(json_string)
+
+    return data
+
+
