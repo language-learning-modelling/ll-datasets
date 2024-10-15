@@ -17,14 +17,13 @@ if __name__ == "__main__":
     #############################################
     ef.read_cleaned_efcamdat("./datasets/EFCAMDAT/cleaned_efcamdat.csv")
     ef.pandas_to_json()
-    ef.save_all_instances_json("./datasets/EFCAMDAT/cleaned_efcamdat.csv.json")
-    '''
-    '''
+    ef.save_all_instances_as_zlib("./datasets/EFCAMDAT/cleaned_efcamdat.csv.json.zlib")
 
     #############################################
     ##      generate subsets of data           ##
     ##        for fine-tuning                  ##
     #############################################
+    '''
     ef.generate_nationality_splits()
     ef.generate_proficiency_splits()
     ef.generate_proficiencyNationality_splits()
@@ -62,4 +61,4 @@ if __name__ == "__main__":
     ##        to add in LLM vocabulary         ##
     #############################################
     ef.output_prefix_tokens_txt(outputfp="./datasets/EFCAMDAT/prefix_tokens.txt")
-
+    '''

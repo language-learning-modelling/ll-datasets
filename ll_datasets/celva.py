@@ -1,3 +1,5 @@
+from ll_datasets import compress_dict, dataclass_to_dict
+from ll_datatypes import Text
 from dotenv import dotenv_values
 import pandas as pd
 import gdown
@@ -61,5 +63,41 @@ class CELVA:
         ds_eng = ds_eng 
         texts = ds_eng['Texte_etudiant'].to_list()
         vocrange = ds_eng['Voc_range'].to_list()
-        records = dataset.reset_index().to_dict(orient='records')
-        self.records = records
+        self.all_instances = dataset.reset_index().to_dict(orient='records')
+
+    def pandas_to_json(self):
+        text_objs={}
+        for text_dict in self.all_instances:
+            text_obj = Text(
+                        text_id=text_dict["pseudo"],
+                        text=text_dict["Texte_etudiant"],
+                        text_metadata={
+                                k:v for k,v in text_dict.items()
+                                if k not in ["pseudo","Texte_etudiant"]
+                            }
+                    )
+            text_objs[text_obj.text_id] = dataclass_to_dict(text_obj)
+        self.all_instances = text_objs
+
+    def save_all_instances_as_zlib(self, output_fp):
+        """
+        Save the JSON object to a file.
+
+        Parameters
+        ----------
+        output_fp : str
+            The file path to save the JSON data.
+
+        Raises
+        ------
+        AttributeError
+            If the JSON data is not available as attribute 'all_instances'.
+        """
+        if hasattr(self, 'all_instances'):
+            if os.path.exists(output_fp):
+                return
+            compressed_dataset_dict = compress_dict(self.all_instances)
+            with open(output_fp, "wb") as outf:
+                outf.write(compressed_dataset_dict)
+        else:
+            raise Exception("Given file does not exist")

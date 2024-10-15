@@ -24,6 +24,8 @@ Example:
 >>> efcamdat.load_json('output.json')
 """
 
+from ll_datasets import compress_dict, dataclass_to_dict
+from ll_datatypes import Text
 from dotenv import dotenv_values
 import gdown
 import os
@@ -98,9 +100,22 @@ class EFCAMDAT:
                 self.read_clean_efcamdat()
             except:
                 raise Exception("Run efcamdat.read_clean_efcamdat first")
-        self.all_instances = json.loads(self.dataframe.to_json(orient="records"))
 
-    def save_all_instances_json(self, output_fp):
+        self.all_instances = json.loads(self.dataframe.to_json(orient="records"))
+        text_objs={}
+        for text_dict in self.all_instances:
+            text_obj = Text(
+                        text_id=text_dict["writing_id"],
+                        text=text_dict["text_corrected"],
+                        text_metadata={
+                                k:v for k,v in text_dict.items()
+                                if k not in ["writing_id","text_corrected","text"]
+                            }
+                    )
+            text_objs[text_obj.text_id] = dataclass_to_dict(text_obj)
+        self.all_instances = text_objs
+
+    def save_all_instances_as_zlib(self, output_fp):
         """
         Save the JSON object to a file.
 
@@ -117,9 +132,9 @@ class EFCAMDAT:
         if hasattr(self, 'all_instances'):
             if os.path.exists(output_fp):
                 return
-            json_formatted_str = json.dumps(self.all_instances, indent=4)
-            with open(output_fp, "w") as outf:
-                outf.write(json_formatted_str)
+            compressed_dataset_dict = compress_dict(self.all_instances)
+            with open(output_fp, "wb") as outf:
+                outf.write(compressed_dataset_dict)
         else:
             raise Exception("Given file does not exist")
 

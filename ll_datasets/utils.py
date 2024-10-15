@@ -1,4 +1,3 @@
-from ll_datasets import FCE, EFCAMDAT, CELVA, TokenizedText, MaskedSentenceStr
 import json
 import os
 import zlib
@@ -16,15 +15,7 @@ def load_config(config_fp_or_jsonstr):
     else:
         return { k.upper():v for (k,v) in json.loads(config_fp_or_jsonstr).items() } 
 
-def download_all():
-    fce=FCE()
-    fce.download()
-    efcamdat=EFCAMDAT()
-    efcamdat.download()
-    celva=CELVA()
-    celva.download()
-
-def agreements_to_mlm_sentences(tokenized_text : TokenizedText, MASK_STR="[MASK]") -> [MaskedSentenceStr]:
+def agreements_to_mlm_sentences(tokenized_text, MASK_STR="[MASK]"):
     '''
         prepares list of masked sentences
         {

@@ -9,7 +9,7 @@ class Config:
         if self.__getattribute__("RAW_DATASET_FP") is None:
             raise Exception("Missing raw dataset FP")
         else:
-            self.PROCESSED_DATASET_FP = self.RAW_DATASET_FP + ".json"
+            self.PROCESSED_DATASET_FP = self.RAW_DATASET_FP + ".json.zlib"
 
             
     def __post_init__(self):
@@ -23,8 +23,8 @@ if __name__ == "__main__":
     sys.path.append("../ll_datasets")
     from celva import CELVA 
     import json
-    from utils import load_config, dataclass_to_dict
-    from ll_datatypes import Text
+    from utils import load_config, dataclass_to_dict, compress_dict
+
     
     config_fp_or_jsonstr = "".join(sys.argv[1:])
     if config_fp_or_jsonstr:
@@ -41,16 +41,5 @@ if __name__ == "__main__":
     celva_ds.download(config.RAW_DATASET_FP)
     #### ENGLISH ONLY text
     celva_ds.read_celva_csv_dataset(config.RAW_DATASET_FP)
-    text_objs={}
-    for text_dict in celva_ds.records:
-        text_obj = Text(
-                    text_id=text_dict["pseudo"],
-                    text=text_dict["Texte_etudiant"],
-                    text_metadata={
-                            k:v for k,v in text_dict.items()
-                            if k not in ["pseudo","Texte_etudiant"]
-                        }
-                )
-        text_objs[text_obj.text_id] = dataclass_to_dict(text_obj)
-    with open(config.PROCESSED_DATASET_FP,"w") as outf:
-        outf.write(json.dumps(text_objs,indent=4))
+    celva_ds.pandas_to_json()
+    celva_ds.save_all_instances_as_zlib(config.PROCESSED_DATASET_FP)
