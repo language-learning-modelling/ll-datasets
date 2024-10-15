@@ -2,3 +2,6 @@ site_name: My Docs
 
 theme:
   name: material
+
+plugins:
+  - mermaid2
