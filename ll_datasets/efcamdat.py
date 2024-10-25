@@ -115,7 +115,7 @@ class EFCAMDAT:
             text_objs[text_obj.text_id] = dataclass_to_dict(text_obj)
         self.all_instances = text_objs
 
-    def save_all_instances_as_zlib(self, output_fp):
+    def save_all_instances_as_zlib(self, output_fp, batch_folder):
         """
         Save the JSON object to a file.
 
