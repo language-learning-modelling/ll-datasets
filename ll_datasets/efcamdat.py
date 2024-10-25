@@ -115,7 +115,8 @@ class EFCAMDAT:
             text_objs[text_obj.text_id] = dataclass_to_dict(text_obj)
         self.all_instances = text_objs
 
-    def save_all_instances_as_zlib(self, output_fp, batch_folder):
+    def save_all_instances_as_zlib(self, output_fp,
+                                   batch_folder=False, batch_size=100):
         """
         Save the JSON object to a file.
 
@@ -130,11 +131,20 @@ class EFCAMDAT:
             If the JSON data is not available as attribute 'all_instances'.
         """
         if hasattr(self, 'all_instances'):
-            if os.path.exists(output_fp):
-                return
-            compressed_dataset_dict = compress_dict(self.all_instances)
-            with open(output_fp, "wb") as outf:
-                outf.write(compressed_dataset_dict)
+            if not batch_folder:
+                if os.path.exists(output_fp):
+                    return
+                compressed_dataset_dict = compress_dict(self.all_instances)
+                with open(output_fp, "wb") as outf:
+                    outf.write(compressed_dataset_dict)
+            else:
+                output_folder = output_fp
+                for batch in batches:
+                    compressed_dataset_dict = compress_dict(self.all_instances)
+                    with open(output_fp, "wb") as outf:
+                        outf.write(compressed_dataset_dict)
+                    
+                
         else:
             raise Exception("Given file does not exist")
 
