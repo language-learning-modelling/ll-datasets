@@ -15,7 +15,7 @@ if __name__ == "__main__":
     import json
     sys.path.insert(0,"../ll_datasets")
     from ll_datatypes import TokenizedText, MaskedSentenceStr
-    from utils import agreements_to_mlm_sentences, load_config
+    from utils import agreements_to_mlm_sentences, load_config, decompress_dict
 
     config_fp_or_jsonstr = "".join(sys.argv[1:])
     config_dict = load_config(config_fp_or_jsonstr) # if input is json str 
