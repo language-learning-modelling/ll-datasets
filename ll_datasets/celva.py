@@ -1,5 +1,4 @@
-from ll_datasets import compress_dict, dataclass_to_dict
-from ll_datatypes import Text
+from ll_datasets import compress_dict, dataclass_to_dict, Text
 from dotenv import dotenv_values
 import pandas as pd
 import gdown
