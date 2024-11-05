@@ -24,8 +24,7 @@ Example:
 >>> efcamdat.load_json('output.json')
 """
 
-from ll_datasets import compress_dict, dataclass_to_dict
-from ll_datatypes import Text
+from ll_datasets import compress_dict, dataclass_to_dict, Text
 from dotenv import dotenv_values
 import gdown
 import os

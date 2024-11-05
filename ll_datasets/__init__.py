@@ -8,5 +8,5 @@ from .models import ModelsDownloader
 from .efcamdat import EFCAMDAT
 from .fce import FCE
 from .celva import CELVA 
-from .ll_datatypes import TokenizedText, MaskedSentenceStr
+from .ll_datatypes import TokenizedText, MaskedSentenceStr, Text
 
