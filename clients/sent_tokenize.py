@@ -5,14 +5,14 @@ import sys
 import os
 import random
 import json
-import numpy as np
+# import numpy as np
 import nltk
 import time
 import spacy_udpipe
 import nltk
 from tqdm import tqdm
 from datetime import datetime
-from multiprocessing import Pool
+from dataclasses import dataclass
 
 # Dataclass to store configuration parameters
 @dataclass
@@ -128,7 +128,7 @@ def main(config):
 
 # Entry point for the script when executed directly
 if __name__ == '__main__':
-    from utils import load_config, dataclass_to_dict  # Utility functions for loading config
+    from ll_datasets import load_config, dataclass_to_dict  # Utility functions for loading config
 
     # Read config from the command line argument (either a file path or a JSON string)
     config_fp_or_jsonstr = "".join(sys.argv[1:])
