@@ -569,10 +569,8 @@ python-dotenv = "^1.0.1"
 transformers = "^4.41.0"
 
 [package.source]
-type = "git"
-url = "https://github.com/language-learning-modelling/ll-datasets.git"
-reference = "issue-6-json-zlib-outputs"
-resolved_reference = "3c50bb1984327550c0bb4ae478c45b2c1355db7e"
+type = "directory"
+url = ".."
 
 [[package]]
 name = "llm-agreement-metrics"
@@ -2884,4 +2882,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "6f08a641626773e68492f42a8946a9881e99987b8a70798909300fa459e85dd7"
+content-hash = "bc7ba8916a64b2fc8f257d7ff3daf2023a6adca791988e72a62033065a2ca499"
