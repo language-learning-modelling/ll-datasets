@@ -18,6 +18,7 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     INPUT_FP: str = None  # Path to the input data file
+    INPUT_TYPE: str = "json.zlib"
     OUTPUT_FOLDER: str = None  # Directory for saving output files
     UD_MODEL_FP: str = None  # Path to the Universal Dependencies model
     TEXT_COLUMN: str = None  # Column name containing the text data in the input file
