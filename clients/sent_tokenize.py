@@ -1,4 +1,5 @@
 # Import required libraries and modules
+from ll_datasets import decompress_dict
 from llm_agreement_metrics import dataset, metrics, models
 # import plotext as plt  # Plotext is commented out, likely for plotting, if needed.
 import sys
@@ -18,7 +19,6 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     INPUT_FP: str = None  # Path to the input data file
-    INPUT_TYPE: str = "json.zlib"
     OUTPUT_FOLDER: str = None  # Directory for saving output files
     UD_MODEL_FP: str = None  # Path to the Universal Dependencies model
     TEXT_COLUMN: str = None  # Column name containing the text data in the input file
@@ -68,7 +68,13 @@ def main(config):
           f'{main_start.hour}:{main_start.minute}:{main_start.second}')
     
     # Load the dataset from the specified file path
-    row_dicts = dataset.read_dataset(config.INPUT_FP)
+    # dataset.read_dataset(config.INPUT_FP)
+    def read_dataset_zlib_json(filepath):
+        with open(filepath, "rb") as inpf:
+            decompressed = decompress_dict(inpf.read())
+        return decompressed
+
+    row_dicts = read_dataset_zlib_json(config.INPUT_FP)  
 
     # Start processing and log the timestamp
     start = datetime.utcnow()
@@ -144,5 +150,6 @@ if __name__ == '__main__':
     config.INPUT_FILENAME = config.INPUT_FP.split('/')[-1]  # Extract the filename from the input path
     config.OUTPUT_FP = f'{config.OUTPUT_FOLDER}/{config.INPUT_FILENAME}'  # Set the output file path
 
+    print(config)
     # Call the main function with the loaded configuration
     main(config)
