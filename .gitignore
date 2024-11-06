@@ -10,3 +10,5 @@ clients/outputs
 clients/.vim
 .vim
 clients/teanga2
+clients/udpipe_models
+clients/test.pycompressed.json
