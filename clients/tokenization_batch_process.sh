@@ -1,6 +1,6 @@
 #!/bin/bash
 # var for session name (to avoid repeated occurences)
-PYTHONBIN=/home/berstearns/.cache/pypoetry/virtualenvs/poetry-client-UVpoFPKR-py3.12/bin/python3
+PYTHONBIN=/home/berstearns/.cache/pypoetry/virtualenvs/clients-rxRUw8tm-py3.12/bin/python3
 SCRIPTFP=sent_tokenize.py
 MAX_NUM_TO_PROCESS=10
 sn=xyz
@@ -14,24 +14,25 @@ sn=xyz
 # Create a bunch of windows, one for each data split
 # DATASPLITS=()
 #
+# DOWNLOAD MODE WITH "download_udpipe_model.sh" if not available"
 UDPIPE='./udpipe_models/english-ewt-ud-2.5-191206.udpipe'
 TEXTCOLUMN='text' # If normalized dataset the text column will always be text column
 
 ####################
 ## CELVA FULL     ##
 ####################
-#SPLIT=""
-#DATASET="CELVA"
-#INPUT_BATCH_FOLDER="./outputs/${DATASET}/splits/"
-#OUTPUT_BATCH_FOLDER="./outputs/${DATASET}/tokenization_batch/"
+SPLIT=""
+DATASET="CELVA"
+INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
+OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
 
 ####################
 ## EFCAMDAT TRAIN ##
 ####################
-SPLIT="train"
-DATASET="EFCAMDAT"
-INPUT_BATCH_FOLDER="./outputs/${DATASET}/splits/${SPLIT}_json"
-OUTPUT_BATCH_FOLDER="./outputs/${DATASET}/tokenization_batch/${SPLIT}"
+#SPLIT="train"
+#DATASET="EFCAMDAT"
+#INPUT_BATCH_FOLDER="./outputs/${DATASET}/splits/${SPLIT}_json"
+#OUTPUT_BATCH_FOLDER="./outputs/${DATASET}/tokenization_batch/${SPLIT}"
 
 ####################
 ## EFCAMDAT TEST  ##
@@ -54,18 +55,18 @@ for FILENAME in $(ls $INPUT_BATCH_FOLDER -p | grep -v /); do
 done
 for i in ${!DATASPLITS[@]}; do
   FILENAME=${DATASPLITS[$i]}
-  FILEPATH="${INPUT_BATCH_FOLDER}/${FILENAME}"
+  FILEPATH="${INPUT_BATCH_FOLDER}${FILENAME}"
   CONFIG=$(
     jo -p input_fp=$FILEPATH ud_model_fp=$UDPIPE \
       output_folder=$OUTPUT_BATCH_FOLDER text_column=$TEXTCOLUMN
   )
-  COMMAND="${PYTHONBIN} -W ignore ${SCRIPTFP} $CONFIG"
+  COMMAND="${PYTHONBIN} -i -W ignore ${SCRIPTFP} $CONFIG"
   # -i
   echo $i "->" ${DATASPLITS[$i]}
   echo $CONFIG
   # echo $CONFIG
-  #tmux new-window -t "$sn:$((i+1))" -n "${FILENAME:(-3)}" "zsh -c script.py"
-  $COMMAND &
+  # tmux new-window -t "$sn:$((i+1))" -n "${FILENAME:(-3)}" "zsh -c script.py"
+  $COMMAND #&
 done
 
 # Set the default cwd for new windows (optional, otherwise defaults to session cwd)
