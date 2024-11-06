@@ -22,6 +22,7 @@
                 - json
                 - txt
                 - compressed
+
 ## we normalize to a single common format :
     - normalzing json.zlib
     - I need to describe the schema of it in more details but:  
@@ -43,6 +44,26 @@
     - If i don't have a config file at least i can read the config class
     - I was using batch_process.sh to set the config with jo and passing it to python script 
     - so i was able to know which config i was running through the batch_process.sh
+    - The udpipe model folder with file is not there, how can i download it ?
+        - clone the code from A4LL (cyriel) to download model
+        - https://gitlab.huma-num.fr/lidile/A4LL_system.git
+    - there is a mismatch in the folder structure the efcamdat client is generating and the folder tokenization_batch_processing is expecting
+    - I manually fixed this mismtach by coping celva.csv.json.zlib to /CELVA/splits
+    - Now i need to make sure the pipleine can read a json.zlib format
+    - The code part that reads a file:
+        - row_dicts = dataset.read_dataset(config.INPUT_FP)
+        - using from llm_agreement_metrics import dataset, metrics, models
+        - later on i can move this dataset module to ll-datasets lib
+        - it checks the INPUT_FP ending for decide with reading strategy to use:
+            - .csv
+                - read_pandas
+            - .json
+                - read_json
+            - else
+                - read_txt
+        - client is fine passing a file ending ".json.zlib", dev needs to address this in code
+        - the dev needs to get a .json.zlib read it as bytes and use "decompress_data"
+ 
     - {
          text_id:,
          text: ,
@@ -52,7 +73,6 @@
          }
         }
     
-
 ## for the MLM pipeline we have
     1) training
         - training is simply using the data collator (default bert training config)
