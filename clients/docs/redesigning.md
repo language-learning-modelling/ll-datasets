@@ -39,6 +39,10 @@
         }
 
 ## we then tokenize the text into a normalized format
+    - i need to retrieve the config used here.
+    - If i don't have a config file at least i can read the config class
+    - I was using batch_process.sh to set the config with jo and passing it to python script 
+    - so i was able to know which config i was running through the batch_process.sh
     - {
          text_id:,
          text: ,
