@@ -1,5 +1,5 @@
 # Import required libraries and modules
-from ll_datasets import decompress_dict
+from ll_datasets import compress_dict, decompress_dict
 from llm_agreement_metrics import dataset, metrics, models
 # import plotext as plt  # Plotext is commented out, likely for plotting, if needed.
 import sys
@@ -31,7 +31,7 @@ class Config:
                 raise ValueError(f'Missing {field_key} config property')
 
 # Function to write processed data to a JSON file
-def write_obj(data, outfp, batch=True):
+def write_obj(data, outfp, batch=True, compress=True):
     """
     Write processed data to a JSON file.
     
@@ -40,9 +40,10 @@ def write_obj(data, outfp, batch=True):
         outfp (str): The output file path.
         batch (bool): If True, data is processed as a batch, otherwise single data.
     """
+    
+    output_filetype = 'wb' if compress else 'w'
     current_stored_dict = {}  # Dictionary to store processed data
-    with open(outfp, 'w') as outf:
-        # If writing in batch mode
+    with open(outfp, output_filetype) as outf:
         if batch:
             for data_dict in data:
                 data_id = data_dict['text_id']  # Use text_id as the key
@@ -51,7 +52,10 @@ def write_obj(data, outfp, batch=True):
             data_id = data['metadata']['pseudo']  # For non-batch, use the pseudo ID
             current_stored_dict.update({data['metadata']['pseudo']: data})
         # Convert the dictionary to JSON format and write to the file
-        updated_dict_str = json.dumps(current_stored_dict, indent=4)
+        if compress:
+            updated_dict_str = compress_dict(current_stored_dict)
+        else:
+            updated_dict_str = json.dumps(current_stored_dict, indent=4)
         outf.write(updated_dict_str)
 
 # Main function to process the dataset
@@ -136,6 +140,7 @@ def main(config):
 # Entry point for the script when executed directly
 if __name__ == '__main__':
     from ll_datasets import load_config, dataclass_to_dict  # Utility functions for loading config
+    import os
 
     # Read config from the command line argument (either a file path or a JSON string)
     config_fp_or_jsonstr = "".join(sys.argv[1:])
@@ -147,8 +152,8 @@ if __name__ == '__main__':
     config.UD_MODEL = ud_model  # Set the model in the config
 
     # Derive input/output file names based on the provided paths
-    config.INPUT_FILENAME = config.INPUT_FP.split('/')[-1]  # Extract the filename from the input path
-    config.OUTPUT_FP = f'{config.OUTPUT_FOLDER}/{config.INPUT_FILENAME}'  # Set the output file path
+    config.INPUT_FILENAME = config.INPUT_FP.split(os.sep)[-1] # Extract the filename from the input path
+    config.OUTPUT_FP = f'{config.OUTPUT_FOLDER}/tokenized_{config.INPUT_FILENAME}'  # Set the output file path
 
     print(config)
     # Call the main function with the loaded configuration
