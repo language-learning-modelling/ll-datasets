@@ -27,6 +27,14 @@ INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
 OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
 
 ####################
+## EFCAMDAT       ##
+####################
+#SPLIT=""
+#DATASET="EFCAMDAT"
+#INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
+#OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
+
+####################
 ## EFCAMDAT TRAIN ##
 ####################
 #SPLIT="train"
@@ -41,6 +49,7 @@ OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
 # DATASET="EFCAMDAT"
 # INPUT_BATCH_FOLDER="./outputs/${DATASET}/splits/${SPLIT}_json"
 # OUTPUT_BATCH_FOLDER="./outputs/${DATASET}/tokenization_batch/${SPLIT}"
+#
 for FILENAME in $(ls $INPUT_BATCH_FOLDER -p | grep -v /); do
   EXPECTED_OUTPUT=${OUTPUT_BATCH_FOLDER}/${FILENAME}
   TEST=$(wc -l $EXPECTED_OUTPUT 2>/dev/null | awk -F ' ' '{ print $1 }')
