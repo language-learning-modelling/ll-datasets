@@ -91,6 +91,11 @@
 ### it requires the model download locally
 ### how i donwload a model ?
 #### we have a download_client.py in the mlml repo a we can find a example config in run_configs
+#### imanaged to download the model
+### now when i tried running the pipeline I had to 
+#### 1) ln a datsets folder to the mlml folder 
+#### 2) create a "predictions_batch" folder inside datasets/CELVA
+### it is detcting the zlib. now i need to check how the predict.py is handling inputs
 
 
 ## for the MLM pipeline we have 
