@@ -79,7 +79,19 @@
 ### also for simulation on new learner texts
 ### for this pipeline in using the mlml repo
 ### i'm having the same issue of retrieving a run_config file.
-###  but i can look into the config class and have some idea
+###  but as the client I can take a look at the batch_process.sh and i can look into the config class and have some idea
+###  CONFIG=$(jo -p input_fp=$FILEPATH output_folder=$OUTPUT_BATCH_FOLDER model_checkpoint=$MODEL_CHECKPOINT batch_size=$BATCH_SIZE top_k=$TOP_K)
+### in the batch i can retrieve the examples coonfig
+    SPLIT=""
+    DATASET="CELVA"
+    INPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch"
+    OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/predictions_batch"
+    MODEL_NAME="ert-base"
+    MODEL_CHECKPOINT="./models/${MODEL_NAME}"
+### it requires the model download locally
+### how i donwload a model ?
+#### we have a download_client.py in the mlml repo a we can find a example config in run_configs
+
 
 ## for the MLM pipeline we have 
     - The mlm pipeline does not require the human tokenizatiion pipeline
