@@ -39,7 +39,7 @@
             exercises: []
         }
 
-## we then tokenize the text into a normalized format
+## we then HUMAN tokenize the text into a normalized format
     - i need to retrieve the config used here.
     - If i don't have a config file at least i can read the config class
     - I was using batch_process.sh to set the config with jo and passing it to python script 
@@ -65,15 +65,25 @@
         - the dev needs to get a .json.zlib read it as bytes and use "decompress_data"
  
     - {
-         text_id:,
-         text: ,
-         tokens:,
-         sentences: ,
+         text_id:"12124",
+         text:"das" ,
+         tokens:{
+         },
+         sentences:{} ,
          metadata: {
          }
         }
     
-## for the MLM pipeline we have
+## Human Masked Token Annotation
+### HMTA is done as a test procedure for our models
+### also for simulation on new learner texts
+### for this pipeline in using the mlml repo
+### i'm having the same issue of retrieving a run_config file.
+###  but i can look into the config class and have some idea
+
+## for the MLM pipeline we have 
+    - The mlm pipeline does not require the human tokenizatiion pipeline
+    - It just reuires to pass a batch of text
     1) training
         - training is simply using the data collator (default bert training config)
 
