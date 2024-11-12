@@ -10,6 +10,8 @@ python = ">=3.9,<4"
 llm-agreement-metrics = {git = "https://github.com/language-learning-modelling/selva-agreement-metrics.git", subdirectory = "llm-agreement-metrics/"}
 spacy-udpipe = "^1.0.0"
 ll-datasets = {path = ".."}
+datasets = "^3.1.0"
+pyarrow = "^18.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
