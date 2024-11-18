@@ -9,7 +9,7 @@ class C4200m:
         '''
         self.download_hf(output_folder_fp)
 
-    def download_hf(self)
+    def download_hf(self):
         '''
         downloads the dataset using the huggingface dataset library
         https://huggingface.co/datasets/liweili/c4_200m?row=1
