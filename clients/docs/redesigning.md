@@ -108,6 +108,7 @@
         - testing is simply for each human token of the given token:
             1) mask one at a time, and try to predict it
             2) mask contigous bigrams one at a time, and try to predict it
+            3) mask an index of tokens and try to predict it
 
 ## for the CEFR classification pipeline we have:
    1) training
