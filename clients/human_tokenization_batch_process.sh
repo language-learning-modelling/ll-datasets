@@ -21,18 +21,18 @@ TEXTCOLUMN='text' # If normalized dataset the text column will always be text co
 ####################
 ## CELVA FULL     ##
 ####################
-SPLIT=""
-DATASET="CELVA"
-INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
-OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
+#SPLIT=""
+#DATASET="CELVA"
+#INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
+#OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
 
 ####################
 ## EFCAMDAT       ##
 ####################
-#SPLIT=""
-#DATASET="EFCAMDAT"
-#INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
-#OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
+SPLIT=""
+DATASET="EFCAMDAT"
+INPUT_BATCH_FOLDER="./datasets/${DATASET}/splits/"
+OUTPUT_BATCH_FOLDER="./datasets/${DATASET}/tokenization_batch/"
 
 ####################
 ## EFCAMDAT TRAIN ##
