@@ -7,9 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4"
-llm-agreement-metrics = {git = "https://github.com/language-learning-modelling/selva-agreement-metrics.git", subdirectory = "llm-agreement-metrics/"}
+llm-agreement-metrics = {path = "/home/berstearns/projects/language-learning-modelling/selva-agreement-metrics/llm-agreement-metrics"}
 spacy-udpipe = "^1.0.0"
 ll-datasets = {path = ".."}
+evaluate = "^0.4.3"
 
 
 [tool.poetry.group.dev.dependencies]
